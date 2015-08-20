@@ -29,8 +29,8 @@
         var selector = attr.selector
           , thisInput = angular.element(selector ? element[0].querySelector('.' + selector) : element[0].children[0])
           , theCalendar
-          , defaultPrevButton = '<b class="datepicker-default-button">&lang;</b>'
-          , defaultNextButton = '<b class="datepicker-default-button">&rang;</b>'
+          , defaultPrevButton = '<b class="datepicker-default-button">&lsaquo;</b>'
+          , defaultNextButton = '<b class="datepicker-default-button">&rsaquo;</b>'
           , prevButton = attr.buttonPrev || defaultPrevButton
           , nextButton = attr.buttonNext || defaultNextButton
           , dateFormat = attr.dateFormat
@@ -102,7 +102,8 @@
 
             date = new Date(value);
 
-            $scope.month = $filter('date')(date, 'MMMM');//December-November like
+            //$scope.month = moment(date).format('MMMM');//December-November like
+            $scope.month = Number($filter('date')(date, 'MMM'));//December-November like
             $scope.monthNumber = Number($filter('date')(date, 'MM')); // 01-12 like
             $scope.day = Number($filter('date')(date, 'dd')); //01-31 like
             $scope.year = Number($filter('date')(date, 'yyyy'));//2014 like
@@ -125,7 +126,8 @@
           }
         });
 
-        $scope.month = $filter('date')(date, 'MMMM');//December-November like
+        //$scope.month = moment(date).format('MMMM');//December-November like
+        $scope.month = Number($filter('date')(date, 'MMM'));//December-November like
         $scope.monthNumber = Number($filter('date')(date, 'MM')); // 01-12 like
         $scope.day = Number($filter('date')(date, 'dd')); //01-31 like
          if ($scope.dateMaxLimit) {
