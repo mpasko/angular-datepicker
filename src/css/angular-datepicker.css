@@ -155,10 +155,11 @@ datepicker, .datepicker, [datepicker],
   border-bottom:1px solid rgba(0,0,0,0.02);
 }
 ._720kb-datepicker-calendar-days-header div{
- width: 13.2%;
+ width: 12.2%;
  font-weight: 500;
  font-size: 11.5px;
- padding:10px 0.5%;
+ padding:10px 0%;
+ margin:0px 1%;
  float:left;
  text-align: center;
  color:rgba(0,0,0,0.7);
