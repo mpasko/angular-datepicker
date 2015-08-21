@@ -1,4 +1,4 @@
-/*global angular navigator*/
+/*global angular moment navigator*/
 
 (function withAngular(angular, moment) {
 
@@ -10,8 +10,7 @@
     var A_DAY_IN_MILLISECONDS = 86400000;
     
     function getMonthName(date) {
-      return moment(date).format('MMMM'); 
-      //return $filter('date')(date, 'MMM');
+      return moment(date).format('MMMM');
     }
     
     return {
@@ -108,7 +107,7 @@
 
             date = new Date(value);
 
-            $scope.month = getMonthName(date);//December-November like
+            $scope.month = getMonthName(date); //December-November like
             $scope.monthNumber = Number($filter('date')(date, 'MM')); // 01-12 like
             $scope.day = Number($filter('date')(date, 'dd')); //01-31 like
             $scope.year = Number($filter('date')(date, 'yyyy'));//2014 like
@@ -131,7 +130,7 @@
           }
         });
 
-        $scope.month = getMonthName(date);//December-November like
+        $scope.month = getMonthName(date); //December-November like
         $scope.monthNumber = Number($filter('date')(date, 'MM')); // 01-12 like
         $scope.day = Number($filter('date')(date, 'dd')); //01-31 like
          if ($scope.dateMaxLimit) {
