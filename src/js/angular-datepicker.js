@@ -1,6 +1,6 @@
 /*global angular navigator*/
 
-(function withAngular(angular) {
+(function withAngular(angular, moment) {
 
   'use strict';
 
@@ -8,6 +8,11 @@
 		.directive('datepicker', ['$window', '$compile', '$locale', '$filter', '$interpolate', function manageDirective($window, $compile, $locale, $filter, $interpolate) {
 
     var A_DAY_IN_MILLISECONDS = 86400000;
+    
+    function getMonthName(date) {
+      return moment(date).format('MMMM');
+    }
+    
     return {
       'restrict': 'AEC',
       'scope': {
@@ -29,8 +34,8 @@
         var selector = attr.selector
           , thisInput = angular.element(selector ? element[0].querySelector('.' + selector) : element[0].children[0])
           , theCalendar
-          , defaultPrevButton = '<b class="datepicker-default-button">&lang;</b>'
-          , defaultNextButton = '<b class="datepicker-default-button">&rang;</b>'
+          , defaultPrevButton = '<b class="datepicker-default-button">&lsaquo;</b>'
+          , defaultNextButton = '<b class="datepicker-default-button">&rsaquo;</b>'
           , prevButton = attr.buttonPrev || defaultPrevButton
           , nextButton = attr.buttonNext || defaultNextButton
           , dateFormat = attr.dateFormat
@@ -48,7 +53,7 @@
           '<a href="javascript:void(0)" ng-click="prevMonth()" title="{{buttonPrevTitle}}">' + prevButton + '</a>' +
           '</div>' +
           '<div class="_720kb-datepicker-calendar-header-middle _720kb-datepicker-calendar-month">' +
-          '{{month}} <a href="javascript:void(0)" ng-click="showYearsPagination = !showYearsPagination"><span>{{year}} <i ng-if="!showYearsPagination">&dtrif;</i> <i ng-if="showYearsPagination">&urtri;</i> </span> </a>' +
+          '{{month}} <a href="javascript:void(0)" ng-click="showYearsPagination = !showYearsPagination"><span>{{year}} <i ng-if="!showYearsPagination">&dtrif;</i> <i ng-if="showYearsPagination">&utrif;</i> </span> </a>' +
           '</div>' +
           '<div class="_720kb-datepicker-calendar-header-right">' +
           '<a href="javascript:void(0)" ng-click="nextMonth()" title="{{buttonNextTitle}}">' + nextButton + '</a>' +
@@ -102,7 +107,7 @@
 
             date = new Date(value);
 
-            $scope.month = $filter('date')(date, 'MMMM');//December-November like
+            $scope.month = getMonthName(date); //December-November like
             $scope.monthNumber = Number($filter('date')(date, 'MM')); // 01-12 like
             $scope.day = Number($filter('date')(date, 'dd')); //01-31 like
             $scope.year = Number($filter('date')(date, 'yyyy'));//2014 like
@@ -125,7 +130,7 @@
           }
         });
 
-        $scope.month = $filter('date')(date, 'MMMM');//December-November like
+        $scope.month = getMonthName(date); //December-November like
         $scope.monthNumber = Number($filter('date')(date, 'MM')); // 01-12 like
         $scope.day = Number($filter('date')(date, 'dd')); //01-31 like
          if ($scope.dateMaxLimit) {
@@ -197,7 +202,7 @@
 
         $scope.resetToMinDate = function manageResetToMinDate() {
 
-          $scope.month = $filter('date')(new Date(dateMinLimit), 'MMMM');
+          $scope.month = getMonthName(new Date(dateMinLimit));
           $scope.monthNumber = Number($filter('date')(new Date(dateMinLimit), 'MM'));
           $scope.day = Number($filter('date')(new Date(dateMinLimit), 'dd'));
           $scope.year = Number($filter('date')(new Date(dateMinLimit), 'yyyy'));
@@ -205,7 +210,7 @@
 
         $scope.resetToMaxDate = function manageResetToMaxDate() {
 
-          $scope.month = $filter('date')(new Date(dateMaxLimit), 'MMMM');
+          $scope.month = getMonthName(new Date(dateMaxLimit));
           $scope.monthNumber = Number($filter('date')(new Date(dateMaxLimit), 'MM'));
           $scope.day = Number($filter('date')(new Date(dateMaxLimit), 'dd'));
           $scope.year = Number($filter('date')(new Date(dateMaxLimit), 'yyyy'));
@@ -223,7 +228,7 @@
             $scope.monthNumber += 1;
           }
           //set next month
-          $scope.month = $filter('date')(new Date($scope.year, $scope.monthNumber - 1), 'MMMM');
+          $scope.month = getMonthName(new Date($scope.year, $scope.monthNumber - 1));
           //reinit days
           $scope.setDaysInMonth($scope.monthNumber, $scope.year);
 
@@ -257,7 +262,7 @@
             $scope.monthNumber -= 1;
           }
           //set next month
-          $scope.month = $filter('date')(new Date($scope.year, $scope.monthNumber - 1), 'MMMM');
+          $scope.month = getMonthName(new Date($scope.year, $scope.monthNumber - 1));
           //reinit days
           $scope.setDaysInMonth($scope.monthNumber, $scope.year);
           //check if min date is ok
@@ -562,4 +567,4 @@
       }
     };
   }]);
-}(angular));
+}(angular, moment));
