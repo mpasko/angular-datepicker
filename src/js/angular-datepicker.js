@@ -1,4 +1,4 @@
-/*global angular navigator*/
+/*global angular moment navigator*/
 
 (function withAngular(angular, moment) {
 
