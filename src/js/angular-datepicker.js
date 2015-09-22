@@ -5,22 +5,6 @@
   'use strict';
 
   angular.module('720kb.datepicker', [])
-    .directive('uiBlur', function uiBlurDirective() {
-    return function uiBlurImplementation(scope, elem, attrs) {
-      elem.bind({
-        'blur': function blurListener() {
-          scope.$apply(attrs.uiBlur);
-        },
-        'keydown': function keydownListener(e) {
-          if (e.keyCode === 8 || e.keyCode === 27 || e.keyCode === 13) {
-            scope.$apply(attrs.uiBlur);
-          }
-        }
-      });
-    };
-  });
-
-  angular.module('720kb.datepicker', [])
 		.directive('datepicker', ['$window', '$compile', '$locale', '$filter', '$interpolate', function manageDirective($window, $compile, $locale, $filter, $interpolate) {
 
     var A_DAY_IN_MILLISECONDS = 86400000;
@@ -62,7 +46,7 @@
           , isMouseOnInput = false
           , datetime = $locale.DATETIME_FORMATS
           , pageDatepickers
-          , htmlTemplate = '<div class="_720kb-datepicker-calendar" ui-blur="hideCalendar()">' +
+          , htmlTemplate = '<div class="_720kb-datepicker-calendar" ng-blur="hideCalendar()">' +
           //month+year header
           '<div class="_720kb-datepicker-calendar-header" ng-hide="isMobile()">' +
           '<div class="_720kb-datepicker-calendar-header-left">' +
@@ -174,10 +158,22 @@
         });
 
         thisInput.bind('focusout blur', function onBlurAndFocusOut() {
-
           isMouseOnInput = false;
-          $scope.hideCalendar();
+          if (!isMouseOn) {
+            $scope.hideCalendar();
+          }
         });
+
+        var keyPressListener = function onKeyPressed(event) {
+          isMouseOn = false;
+          if (event.keyCode === 8 || event.keyCode === 27 || event.keyCode === 13) {
+            $scope.hideCalendar();
+          }
+        };
+
+        thisInput.bind('keydown', keyPressListener);
+
+        angular.element(theCalendar).bind('keydown', keyPressListener);
 
         angular.element(theCalendar).bind('mouseenter', function onMouseEnter() {
 
